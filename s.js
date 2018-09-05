@@ -42,21 +42,23 @@ function purchase() {
                 }
             }
 
-           
-           
-             function check() {if (connection.stock===0 || connection.stock > answer.purchase){
+        
+
+             function check() {if (connection.query.stock===0 || connection.query.stock > answer.purchase){
                     console.log("Sorry we are out of this product")
                 }
             
             else{
+             
             connection.query("UPDATE bamazon SET stock = ? WHERE ?", [{
-                stock:answer.purchase - 1,},
+                stock:answer.purchase -answer.purchase,},
                { id: chosenItem.id
             }]) 
 
-            
-        }
-    }
+             console.log(chosenItem)
+                 }
+                        
+                }
               
                 check()
                 inquirer.prompt([{
@@ -72,7 +74,9 @@ function purchase() {
                 if (answer.again==="y"){
                 start();
             }
-            else if (answer.again==="n"){console.log("goodbye")}
+            else if (answer.again==="n"){console.log("goodbye")
+          
+            }
        
             
             

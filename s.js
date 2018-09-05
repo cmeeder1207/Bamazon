@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
     password: "",
     database: "bamazon_db"
 });
-connection.connect(function(err) {
+connection.connect(function (err) {
     if (err) throw err;
     start();
 });
@@ -17,12 +17,12 @@ function start() {
 };
 
 function purchase() {
-    connection.query("SELECT * FROM bamazon", function(err, results) {
+    connection.query("SELECT * FROM bamazon", function (err, results) {
         if (err) throw err;
         inquirer.prompt([{
             type: "list",
             name: "choice",
-            choices: function() {
+            choices: function () {
                 var choiceArray = [];
                 for (var i = 0; i < results.length; i++) {
                     choiceArray.push(results[i].item);
@@ -34,7 +34,7 @@ function purchase() {
             name: "purchase",
             type: "input",
             message: "How many would you like to buy?"
-        }]).then(function(answer) {
+        }]).then(function (answer) {
             var chosenItem;
             for (var i = 0; i < results.length; i++) {
                 if (results[i].item === answer.choice) {
@@ -42,45 +42,48 @@ function purchase() {
                 }
             }
 
-        
 
-             function check() {if (connection.query.stock===0 || connection.query.stock > answer.purchase){
+
+            function check() {
+                if (connection.query.stock === 0 || connection.query.stock > answer.purchase) {
                     console.log("Sorry we are out of this product")
-                }
-            
-            else{
-             
-            connection.query("UPDATE bamazon SET stock = ? WHERE ?", [{
-                stock:answer.purchase -answer.purchase,},
-               { id: chosenItem.id
-            }]) 
+                } else {
 
-             console.log(chosenItem)
-                 }
-                        
+                    connection.query("UPDATE bamazon SET stock = ? WHERE ?", [{
+                            stock: answer.purchase - answer.purchase,
+                        },
+                        {
+                            id: chosenItem.id
+                        }
+                    ])
+
+                    console.log(chosenItem)
                 }
-              
-                check()
-                inquirer.prompt([{
-                    type:'list',
-                    name:'again',
-                    message:'would you like to keep shopping?',
-                    choices:["y","n"]
+
+            }
+
+            check()
+            inquirer.prompt([{
+                    type: 'list',
+                    name: 'again',
+                    message: 'would you like to keep shopping?',
+                    choices: ["y", "n"]
 
                 }])
 
-                .then(function(answer) {
-                console.log(answer.again)
-                if (answer.again==="y"){
-                start();
-            }
-            else if (answer.again==="n"){console.log("goodbye")
-          
-            }
-       
-            
-            
-         
+                .then(function (answer) {
+                    console.log(answer.again)
+                    if (answer.again === "y") {
+                        start();
+                    } else if (answer.again === "n") {
+                        console.log("goodbye")
+
+                    }
+
+
+
+
+                })
         })
     })
-    })}
+}

@@ -146,25 +146,28 @@ function manage() {
     function addnew() {
 
         inquirer.prompt([{
-            type: "prompt",
-            name: "name",
-            message: "What Product Would You Like To Add? (Name)"
-        },
-        {
-            type: "prompt",
-            name: "catagory",
-            message: "What Products Catagory"},
+                type: "prompt",
+                name: "name",
+                message: "What Product Would You Like To Add? (Name)"
+            },
+            {
+                type: "prompt",
+                name: "catagory",
+                message: "What Products Catagory"
+            },
             {
                 type: "prompt",
                 name: "price",
-                message: "What Products Price"},
-                {
-                    type: "prompt",
-                    name: "stock",
-                    message: "How many do we have in Stock"
+                message: "What Products Price"
+            },
+            {
+                type: "prompt",
+                name: "stock",
+                message: "How many do we have in Stock"
 
-        }]).then(function (answer) {
-            
+            }
+        ]).then(function (answer) {
+
                 connection.query(`INSERT INTO bamazon (item,catagory,price,stock) VALUES ('${answer.name}'  ,  '${answer.catagory}'  ,  '${answer.price}'  ,  '${answer.stock}'  )`)
 
 
